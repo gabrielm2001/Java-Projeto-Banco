@@ -7,11 +7,14 @@ public class TesteContas {
 	public static void main(String[] args) {
 			
 		Conta cc1 = new ContaCorrente(123, 234);
-			
-		cc1.deposita(-400);
+		Conta cc2 = new ContaCorrente(123, 34);	
 		
-		System.out.println(cc1.getSaldo());
-			
+		cc1.deposita(19000);
+		cc1.tranferir(500, cc2);
+		
+		cc1.calculaImpostos();
+		
+		System.out.println(cc1.getImposto());
 	}
 
 }

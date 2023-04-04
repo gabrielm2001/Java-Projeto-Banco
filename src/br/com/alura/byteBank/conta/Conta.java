@@ -1,8 +1,9 @@
 package br.com.alura.byteBank.conta;
 
 import br.com.alura.byteBank.excessoes.*;
+import br.com.alura.byteBank.interfaces.*;
 
-public abstract class Conta {
+public abstract class Conta implements CalculoDeImposto{
 
 	/**
 	 * Atributos da Conta
@@ -26,6 +27,9 @@ public abstract class Conta {
 	
 //	<Métodos>
 	public void saca(double valorSacar) {
+		if (valorSacar < 0) {
+			throw new NumeroNegativoExcption("Não pode depositar valor negativo");
+		}
 		if (valorSacar > this.saldo) {
 			throw new saldoInsuficienteException("Saldo Insuficiente para sacar");
 		}
@@ -33,15 +37,25 @@ public abstract class Conta {
 	}
 	
 	public void deposita(double valorDepositar) {
+		if (valorDepositar < 0) {
+			throw new NumeroNegativoExcption("Não pode depositar valor negativo");
+		}
 		this.saldo += valorDepositar;
 	}
 	
 	public void tranferir(double valorTransferir, Conta receptor) {
+		if (valorTransferir < 0) {
+			throw new NumeroNegativoExcption("Não pode depositar valor negativo");
+		}
 		if (valorTransferir > this.saldo) {
 			throw new saldoInsuficienteException("Saldo insuficiente para transferir");
 		}
 		this.saldo -= valorTransferir;
 		receptor.deposita(valorTransferir);
+	}
+	
+	public double subtrairImpostos(double valorSubtrair) {
+		return this.saldo -= valorSubtrair;
 	}
 //	<Métodos/>
 	
@@ -68,6 +82,8 @@ public abstract class Conta {
 	public void setAgencia(int agencia) {
 		this.agencia = agencia;
 	}
+	
+
 //	<Setters/>
 
 }
