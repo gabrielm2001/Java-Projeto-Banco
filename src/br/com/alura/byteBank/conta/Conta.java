@@ -1,5 +1,7 @@
 package br.com.alura.byteBank.conta;
 
+import br.com.alura.byteBank.excessoes.*;
+
 public abstract class Conta {
 
 	/**
@@ -24,12 +26,20 @@ public abstract class Conta {
 	
 //	<Métodos>
 	public void saca(double valorSacar) {
+		if (valorSacar > this.saldo) {
+			throw new saldoInsuficienteException("Saldo Insuficiente para sacar");
+		}
 		this.saldo -= valorSacar;
 	}
+	
 	public void deposita(double valorDepositar) {
 		this.saldo += valorDepositar;
 	}
+	
 	public void tranferir(double valorTransferir, Conta receptor) {
+		if (valorTransferir > this.saldo) {
+			throw new saldoInsuficienteException("Saldo insuficiente para transferir");
+		}
 		this.saldo -= valorTransferir;
 		receptor.deposita(valorTransferir);
 	}
